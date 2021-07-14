@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MainStyle" parent="Theme.Design.Light.NoActionBar">
+        <item name="colorPrimary">@color/barColor</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="android:windowBackground">@color/mainColor</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:fontFamily">monospace</item>
+
+    </style>
+
+    <style name="MainStyle.Toolbar" parent="MainStyle">
+        <item name="titleTextColor">@color/white</item>
+    </style>
+
+    <style name="MainStyle.TabLayout" parent="MainStyle">
+    </style>
+
+</resources>

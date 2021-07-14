@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ChemicalCoffee</string>
+    <string name="settings">Настройки</string>
+    <string name="home_tab">Главная</string>
+    <string name="hot_tab">Горячее</string>
+    <string name="coffee_tab">Кофе</string>
+    <string name="store_tab">Магазины</string>
+    <string name="error_load">Ошибка загрузки</string>
+    <string name="description_home">ChemicalCoffee — интернет-магазин, предлагающий покупателям широкий выбор кофе с доставкой по Москве, Московской области и всей территории России.</string>
+</resources>

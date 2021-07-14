@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ChemicalCoffee</string>
+    <string name="settings">Settings</string>
+    <string name="home_tab">Home</string>
+    <string name="hot_tab">Hot</string>
+    <string name="coffee_tab">Coffee</string>
+    <string name="store_tab">Store</string>
+    <string name="error_load">Error load</string>
+    <string name="description_home">ChemicalCoffee is an online store offering customers a wide selection of coffee with delivery in Moscow, the Moscow region and throughout Russia.</string>
+</resources>
