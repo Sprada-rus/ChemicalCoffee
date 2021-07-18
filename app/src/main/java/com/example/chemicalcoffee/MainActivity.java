@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView barTitle = (TextView) toolbar.findViewById(R.id.title_toolbar);
         setSupportActionBar(toolbar);
@@ -48,8 +47,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(pager);
         tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
-
-        loadFragment();
+//        loadFragment();
 
         if (savedInstanceState != null){
             tabLayout.getTabAt(savedInstanceState.getInt("positionTab")).select();
@@ -60,9 +58,7 @@ public class MainActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                coffeeFragment = new CoffeeFragment();
-                hotFragment = new HotFragment();
-                storeFragment = new StoreFragment();
+
             }
         }).start();
     }
@@ -88,11 +84,11 @@ public class MainActivity extends AppCompatActivity {
                 case 0:
                     return new HomeFragment();
                 case 1:
-                    return coffeeFragment;
+                    return new CoffeeFragment();
                 case 2:
-                    return hotFragment;
+                    return new HotFragment();
                 case 3:
-                    return storeFragment;
+                    return new StoreFragment();
             }
             return null;
         }

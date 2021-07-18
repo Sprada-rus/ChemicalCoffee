@@ -9,63 +9,58 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cursoradapter.widget.CursorAdapter;
 import androidx.cursoradapter.widget.SimpleCursorAdapter;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class CoffeeFragment extends Fragment {
     private SQLiteOpenHelper helper;
-    private RecyclerView coffeeView;
-    private RecyclerView tmpView;
-    private SQListImageAdapter adapter;
     private static final String tableName = "DRINK";
-    private SQLiteDatabase db;
-    private Cursor cursor;
-    private boolean isDownload = false;
+    private ArrayList<String> captions = new ArrayList<String>();
+    private ArrayList<Integer>  imageID = new ArrayList<Integer>();
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
         helper = new LocalDatabaseHelper(getContext());
-        coffeeView = (RecyclerView) inflater.inflate(R.layout.fragment_coffee, container, false);
-        new UnloadObject().execute(tableName);
-//        newThread();
+        RecyclerView coffeeView = (RecyclerView) inflater.inflate(R.layout.fragment_coffee, container, false);
 
+        if (captions.size() == 0 && imageID.size() == 0)
+            new UnloadObject().execute(tableName);
 
+        SQListImageAdapter adapter = new SQListImageAdapter(captions, imageID);
+        adapter.setListener(new SQListImageAdapter.Listener() {
+            @Override
+            public void onClick(int position) {
+                Intent intent = new Intent(getActivity(), CardObjectActivity.class);
+                intent.putExtra(CardObjectActivity.EXTRA_OBJ_ID, position);
+                intent.putExtra(CardObjectActivity.EXTRA_TABLE, tableName);
+                startActivity(intent);
+            }
+        });
+        coffeeView.setAdapter(adapter);
+
+        adapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT);
+
+        LinearLayoutManager layout = new LinearLayoutManager(getActivity());
+        coffeeView.setLayoutManager(layout);
 
         return coffeeView;
     }
-
-//    private void newThread(){
-//
-//        Thread thread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    db = helper.getReadableDatabase();
-//                    cursor = db.query(tableName, new String[]{"_id", "name", "descr", "image_id"},
-//                            null, null, null, null, null);
-//                    isDownload = true;
-//                } catch (SQLException e){
-//                    isDownload = false;
-//                }
-//            }
-//        });
-//
-//        thread.start();
-//
-//    }
 
     private class UnloadObject extends AsyncTask<String, Void, Boolean>{
 
@@ -81,10 +76,24 @@ public class CoffeeFragment extends Fragment {
 
             //Попытка вытащить значения из таблицы
             try {
-                db = helper.getReadableDatabase();
-                cursor = db.query(nameTab, new String[]{"_id", "name", "descr", "image_id"},
+                SQLiteDatabase db = helper.getReadableDatabase();
+                Cursor cursor = db.query(nameTab, new String[]{"name", "image_id"},
                         null, null, null, null, null);
 
+                for (int i = 0; i < cursor.getCount(); i++){
+                    if(i == 0 && cursor.moveToFirst()) {
+                        captions.add(cursor.getString(cursor.getColumnIndex(dbColumn.EnterColumn.OBJECT_NAME)));
+                        imageID.add(cursor.getInt(cursor.getColumnIndex(dbColumn.EnterColumn.IMAGE_ID)));
+                    } else {
+                        cursor.moveToNext();
+                        captions.add(cursor.getString(cursor.getColumnIndex(dbColumn.EnterColumn.OBJECT_NAME)));
+                        imageID.add(cursor.getInt(cursor.getColumnIndex(dbColumn.EnterColumn.IMAGE_ID)));
+                    }
+                }
+
+                cursor.close();
+                db.close();
+                Log.i("Success load", "CoffeeFragment success loaded");
                 return true;
 
             } catch (SQLException e){
@@ -98,28 +107,6 @@ public class CoffeeFragment extends Fragment {
             if (!aBoolean){
                 Toast toast = Toast.makeText(getContext(), R.string.error_load, Toast.LENGTH_SHORT);
                 toast.show();
-            } else {
-                try {
-                    adapter = new SQListImageAdapter(cursor, new String[]{"name", "image_id"});
-                    coffeeView.setAdapter(adapter);
-
-                    LinearLayoutManager layout = new LinearLayoutManager(getActivity());
-                    coffeeView.setLayoutManager(layout);
-//
-                    adapter.setListener(new SQListImageAdapter.Listener() {
-                        @Override
-                        public void onClick(int position) {
-                            Intent intent = new Intent(getContext(), CardObjectActivity.class);
-                            intent.putExtra(CardObjectActivity.EXTRA_OBJ_ID, position);
-                            intent.putExtra(CardObjectActivity.EXTRA_TABLE, tableName);
-                        }
-                    });
-
-                    cursor.close();
-                    db.close();
-                } catch (Exception e){
-                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
             }
         }
     }

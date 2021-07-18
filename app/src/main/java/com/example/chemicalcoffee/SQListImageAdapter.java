@@ -13,11 +13,11 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 public class SQListImageAdapter extends RecyclerView.Adapter<SQListImageAdapter.ViewHolder> {
-    private String[] captions;
-    private String[] from;
-    private int[] imgID;
-    private Cursor cursor;
+    private ArrayList<String> captions = new ArrayList<String>();
+    private ArrayList<Integer> imgID = new ArrayList<Integer>();
     private Listener listener;
 
     interface Listener{
@@ -33,34 +33,16 @@ public class SQListImageAdapter extends RecyclerView.Adapter<SQListImageAdapter.
         }
     }
 
-    public SQListImageAdapter(Cursor cursor, String[] from){
-        this.from = from;
-        this.cursor = cursor;
-        getItemValue();
+    public SQListImageAdapter(ArrayList<String> captions, ArrayList<Integer> imageID){
+        this.captions = captions;
+        this.imgID = imageID;
+
     }
 
-
-    private void getItemValue(){
-        int[] imgId = new int[cursor.getCount()];
-        String[] textValue = new String[cursor.getCount()];
-        if(cursor.moveToFirst()){
-            imgId[0] = cursor.getInt(cursor.getColumnIndex(from[1]));
-            textValue[0] = cursor.getString(cursor.getColumnIndex(from[0]));
-        }
-
-        for (int i = 1; i < cursor.getCount(); i++){
-            cursor.moveToNext();
-            imgId[i] = cursor.getInt(cursor.getColumnIndex(from[1]));
-            textValue[i] = cursor.getString(cursor.getColumnIndex(from[0]));
-        }
-
-        captions = textValue;
-        imgID = imgId;
-    }
 
     @Override
     public int getItemCount(){
-        return captions.length;
+        return captions.size();
     }
 
     public void setListener(Listener listener){
@@ -77,11 +59,11 @@ public class SQListImageAdapter extends RecyclerView.Adapter<SQListImageAdapter.
     public void onBindViewHolder(ViewHolder holder, int position){
         CardView cardView = holder.cardView;
         ImageView imageView = (ImageView) cardView.findViewById(R.id.img_obj);
-        Drawable drawable = ContextCompat.getDrawable(cardView.getContext(), imgID[position]);
+        Drawable drawable = ContextCompat.getDrawable(cardView.getContext(), imgID.get(position));
         imageView.setImageDrawable(drawable);
-        imageView.setContentDescription(captions[position]);
+        imageView.setContentDescription(captions.get(position));
         TextView textView = (TextView) cardView.findViewById(R.id.name_obj);
-        textView.setText(captions[position]);
+        textView.setText(captions.get(position));
         cardView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
