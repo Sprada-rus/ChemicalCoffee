@@ -40,15 +40,13 @@ public class StoreFragment extends Fragment {
         adapter.setListener(new SQListImageAdapter.Listener() {
             @Override
             public void onClick(int position) {
-                Intent intent = new Intent(getContext(), CardObjectActivity.class);
-                intent.putExtra(CardObjectActivity.EXTRA_OBJ_ID, position);
-                intent.putExtra(CardObjectActivity.EXTRA_TABLE, tableName);
+                Intent intent = new Intent(getContext(), CardStoreActivity.class);
+                intent.putExtra(CardStoreActivity.EXTRA_OBJ_ID, position);
+                intent.putExtra(CardStoreActivity.EXTRA_TABLE, tableName);
                 startActivity(intent);
             }
         });
-
-        adapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
-
+        adapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT);
         storeView.setAdapter(adapter);
 
         LinearLayoutManager layout = new LinearLayoutManager(getActivity());

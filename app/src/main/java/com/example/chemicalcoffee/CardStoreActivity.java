@@ -21,7 +21,7 @@ public class CardStoreActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_card_object);
+        setContentView(R.layout.activity_card_store);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView barTitle = (TextView) toolbar.findViewById(R.id.title_toolbar);
@@ -41,7 +41,7 @@ public class CardStoreActivity extends AppCompatActivity {
 
        try {
            SQLiteDatabase db = helper.getReadableDatabase();
-           Cursor cursor = db.query(table, new String[] {"_id", "name", "descr", "image_id", "count", "coast"}, "_id = ?",
+           Cursor cursor = db.query(table, new String[] {"_id", "name", "descr", "image_id"}, "_id = ?",
                    new String[] {Integer.toString(id)}, null,null,null);
 
            if (cursor.moveToFirst()){

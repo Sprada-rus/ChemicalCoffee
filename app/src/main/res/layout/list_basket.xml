@@ -2,39 +2,105 @@
 <androidx.cardview.widget.CardView
     xmlns:android = "http://schemas.android.com/apk/res/android"
     xmlns:card = "http://schemas.android.com/apk/res-auto"
+    xmlns:tools = "http://schemas.android.com/tools"
     android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:layout_margin="4dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
     card:cardElevation="2dp"
     card:cardCornerRadius="4dp">
-    <FrameLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <ImageView
             android:id="@+id/img_obj"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"/>
+            android:layout_height="0dp"
+            android:layout_weight="40"
+            android:scaleType="centerCrop" />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="25dp"
+            android:layout_height="0dp"
+            android:layout_weight="40"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="25dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/name_obj"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:textColor="@color/black"
+                android:gravity="center_horizontal"
+                android:layout_marginEnd="25dp"
+                android:layout_weight="40"
+                android:textSize="24sp"
                 android:shadowColor="@color/mainColor"
-                android:shadowRadius="5"
                 android:shadowDx="-2"
                 android:shadowDy="-1"
-                android:layout_marginEnd="25dp"/>
+                android:shadowRadius="5"
+                tools:text="Name"/>
+            <TextView
+                android:id="@+id/decrementCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:gravity="center_horizontal"
+                android:textSize="24sp"
+                android:text="@string/decrement"/>
+            <TextView
+                android:id="@+id/count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="20"
+                android:textSize="24sp"
+                android:gravity="center_horizontal"
+                tools:text = "0"/>
+            <TextView
+                android:id="@+id/incrementCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:gravity="center_horizontal"
+                android:text="@string/increment"
+                android:textSize="24sp"/>
         </LinearLayout>
-    </FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="20"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="40"
+                android:layout_marginStart="40dp"
+                android:text="@string/sumList"
+                android:textSize="24sp"
+                />
+            <TextView
+                android:id="@+id/amount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="40"
+                android:textSize="24sp"
+                android:gravity="center"
+                tools:text="200"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="20"
+                android:textSize="24sp"
+                android:gravity="center"
+                android:text="@string/rub"/>
+        </LinearLayout>
+    </LinearLayout>
 </androidx.cardview.widget.CardView>

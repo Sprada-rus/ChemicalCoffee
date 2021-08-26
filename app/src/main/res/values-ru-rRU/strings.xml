@@ -8,4 +8,10 @@
     <string name="store_tab">Магазины</string>
     <string name="error_load">Ошибка загрузки</string>
     <string name="description_home">ChemicalCoffee — интернет-магазин, предлагающий покупателям широкий выбор кофе с доставкой по Москве, Московской области и всей территории России.</string>
+    <string name="decrement">-</string>
+    <string name="increment">+</string>
+    <string name="basket">Корзина</string>
+    <string name="sumList">Сумма</string>
+    <string name="rub">руб.</string>
+    <string name="on_process_dev">Идёт разработка... Пока не ясно когда будет сделано</string>
 </resources>

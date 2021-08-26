@@ -8,24 +8,15 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Typeface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.util.Log;
-import android.util.LogPrinter;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
-    private int positionTab;
-    public  TabLayout tabLayout;
-    public  ViewPager pager;
-    private CoffeeFragment coffeeFragment;
-    private HotFragment hotFragment;
-    private StoreFragment storeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,34 +31,18 @@ public class MainActivity extends AppCompatActivity {
 
 
         SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        pager = (ViewPager) findViewById(R.id.view_pager);
+        ViewPager pager = (ViewPager) findViewById(R.id.view_pager);
+        pager.setOffscreenPageLimit(4);
         pager.setAdapter(pagerAdapter);
 
 
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(pager);
         tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
-//        loadFragment();
 
         if (savedInstanceState != null){
             tabLayout.getTabAt(savedInstanceState.getInt("positionTab")).select();
         }
-    }
-
-    private void loadFragment(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        }).start();
-    }
-
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("positionTab", positionTab);
     }
 
     private class SectionsPagerAdapter extends FragmentPagerAdapter{
@@ -106,6 +81,26 @@ public class MainActivity extends AppCompatActivity {
             }
 
             return null;
+        }
+    }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.basket_item:
+                Intent intent = new Intent(this, BasketActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

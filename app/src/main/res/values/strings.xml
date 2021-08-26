@@ -7,4 +7,10 @@
     <string name="store_tab">Store</string>
     <string name="error_load">Error load</string>
     <string name="description_home">ChemicalCoffee is an online store offering customers a wide selection of coffee with delivery in Moscow, the Moscow region and throughout Russia.</string>
+    <string name="decrement">-</string>
+    <string name="increment">+</string>
+    <string name="basket">Basket</string>
+    <string name="sumList">Sum</string>
+    <string name="rub">rub.</string>
+    <string name="on_process_dev">Идёт разработка... Пока не ясно когда будет сделано</string>
 </resources>
