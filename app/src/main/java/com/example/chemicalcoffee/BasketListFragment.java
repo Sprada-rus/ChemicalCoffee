@@ -34,7 +34,7 @@ public class BasketListFragment extends Fragment {
 
         new UnloadObject().execute(tableName);
 
-        BasketAdapter adapter = new BasketAdapter(captions, imageID, amount, count);
+//        BasketAdapter adapter = new BasketAdapter(captions, imageID, amount, count);
 
 //        adapter.setIncrementListener(new BasketAdapter.Listener() {
 //            @Override

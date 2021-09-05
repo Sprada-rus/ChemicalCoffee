@@ -18,6 +18,11 @@ import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
 
+    private HomeFragment homeTab;
+    private CoffeeFragment coffeeTab;
+    private HotFragment hotTab;
+    private StoreFragment storeTab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState != null){
             tabLayout.getTabAt(savedInstanceState.getInt("positionTab")).select();
         }
+
+        homeTab = new HomeFragment();
+        coffeeTab = new CoffeeFragment();
+        hotTab = new HotFragment();
+        storeTab = new StoreFragment();
     }
 
     private class SectionsPagerAdapter extends FragmentPagerAdapter{
@@ -57,13 +67,13 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position){
             switch (position){
                 case 0:
-                    return new HomeFragment();
+                    return homeTab;
                 case 1:
-                    return new CoffeeFragment();
+                    return coffeeTab;
                 case 2:
-                    return new HotFragment();
+                    return hotTab;
                 case 3:
-                    return new StoreFragment();
+                    return storeTab;
             }
             return null;
         }

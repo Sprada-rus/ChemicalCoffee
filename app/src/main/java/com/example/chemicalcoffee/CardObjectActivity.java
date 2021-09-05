@@ -28,6 +28,8 @@ public class CardObjectActivity extends AppCompatActivity {
     private TextView objCount;
     private TextView objName;
     private TextView objAmount;
+    private ImageView objImage;
+    private int imgId;
 
 
     @Override
@@ -67,6 +69,7 @@ public class CardObjectActivity extends AppCompatActivity {
                         values2.put("count_product", count);
                         values2.put("table_product", nameTable);
                         values2.put("coast", Float.valueOf((String) objAmount.getText()));
+                        values2.put("image_id", imgId);
                         db.insert("BASKET", null, values2);
                     }
                 } catch (SQLException e){
@@ -118,7 +121,7 @@ public class CardObjectActivity extends AppCompatActivity {
                    new String[] {Integer.toString(id)}, null,null,null);
 
            if (cursor.moveToFirst()){
-               ImageView objImage = (ImageView) findViewById(R.id.img_card_obj);
+               objImage = (ImageView) findViewById(R.id.img_card_obj);
                objName = (TextView) findViewById(R.id.name_card_obj);
                TextView objDescription = (TextView) findViewById(R.id.description_card_obj);
                objCount = (TextView) findViewById(R.id.count);
@@ -128,6 +131,7 @@ public class CardObjectActivity extends AppCompatActivity {
                objDescription.setText(cursor.getString(2));
                objImage.setContentDescription(cursor.getString(1));
                objImage.setImageResource(cursor.getInt(3));
+               imgId = cursor.getInt(3);
                objCount.setText(String.valueOf(cursor.getInt(4)));
                objAmount.setText(String.valueOf(cursor.getFloat(5)));
            }

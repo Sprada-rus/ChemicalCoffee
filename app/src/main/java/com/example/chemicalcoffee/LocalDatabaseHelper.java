@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class LocalDatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "ChemicalCoffee";
-    private static final int DB_VERSION = 13;
+    private static final int DB_VERSION = 14;
 
     LocalDatabaseHelper(Context context){super(context, DB_NAME, null, DB_VERSION);}
 
@@ -128,7 +128,6 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE DRINK");
             db.execSQL("DROP TABLE FOOD");
             db.execSQL("DROP TABLE STORE");
-            db.execSQL("DROP TABLE BASKET");
             onCreate(db);
         }
 

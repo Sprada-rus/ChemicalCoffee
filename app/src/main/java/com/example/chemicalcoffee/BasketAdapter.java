@@ -13,10 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder> {
-    private ArrayList<String> captions = new ArrayList<String>();
-    private ArrayList<Integer> imgId = new ArrayList<Integer>();
-    private ArrayList<Float> amount = new ArrayList<Float>();
-    private ArrayList<Integer> count = new ArrayList<>();
+    private ArrayList<ObjProduct> basketList = new ArrayList<>();
+
     private Listener incrementListener;
     private Listener decrementListener;
 
@@ -26,45 +24,20 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private final CardView cardView;
-        private Float price;
-        private int count;
 
         public ViewHolder(CardView v){
             super(v);
             cardView = v;
         }
-
-        public void setPrice(Float price){
-            this.price = price;
-            TextView priceObj = (TextView) cardView.findViewById(R.id.amount);
-            priceObj.setText(String.valueOf(price));
-        }
-
-        public Float getPrice(){
-            return price;
-        }
-
-        public void setCount(int count){
-            this.count = count;
-            TextView countObj = (TextView) cardView.findViewById(R.id.count);
-            countObj.setText(String.valueOf(count));
-        }
-
-        public int getCount(){
-            return count;
-        }
     }
 
-    public BasketAdapter(ArrayList<String> captions, ArrayList<Integer> imageID, ArrayList<Float> amount, ArrayList<Integer> count){
-        this.captions = captions;
-        this.imgId = imageID;
-        this.amount = amount;
-        this.count = count;
+    public BasketAdapter(ArrayList<ObjProduct> list){
+        this.basketList = list;
     }
 
     @Override
     public int getItemCount() {
-        return captions.size();
+        return basketList.size();
     }
 
     public void setIncrementListener(Listener listener){
@@ -92,19 +65,18 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
         TextView amountObj = (TextView) cardView.findViewById(R.id.amount);
 
         //Подгрузка картинки
-        Drawable drawable = ContextCompat.getDrawable(cardView.getContext(), imgId.get(position));
+        Drawable drawable = ContextCompat.getDrawable(cardView.getContext(), basketList.get(position).getImgId());
         imageView.setImageDrawable(drawable);
-        imageView.setContentDescription(captions.get(position));
+        imageView.setContentDescription(basketList.get(position).getNameObject());
 
         //Вставляем Имя объекта
-        nameObj.setText(captions.get(position));
+        nameObj.setText(basketList.get(position).getNameObject());
 
         //Вставляем кол-во
-        countObj.setText(String.valueOf(count.get(position)));
+        countObj.setText(String.valueOf(basketList.get(position).getCount()));
 
         //Вставляем цену
-        holder.price = amount.get(position);
-        amountObj.setText(String.valueOf(holder.price));
+        amountObj.setText(String.valueOf(basketList.get(position).getCoast()));
 
 
         increment.setOnClickListener(new View.OnClickListener() {
