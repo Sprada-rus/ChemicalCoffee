@@ -9,98 +9,90 @@
     android:layout_margin="4dp"
     android:layout_marginStart="5dp"
     android:layout_marginEnd="5dp"
-    card:cardElevation="2dp"
-    card:cardCornerRadius="4dp">
+    card:cardElevation="5dp"
+    card:cardCornerRadius="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:background="@color/backColorCard">
 
         <ImageView
             android:id="@+id/img_obj"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="40"
             android:scaleType="centerCrop" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="40"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="60"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="25dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginBottom="5dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="40dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/decrementCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="10"
+                    android:gravity="center_horizontal"
+                    android:textSize="16sp"
+                    android:text="@string/decrement"/>
+                <TextView
+                    android:id="@+id/count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="20"
+                    android:textSize="16sp"
+                    android:gravity="center_horizontal"
+                    tools:text = "0"/>
+                <TextView
+                    android:id="@+id/incrementCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="10"
+                    android:gravity="center_horizontal"
+                    android:text="@string/increment"
+                    android:textSize="16sp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="30"
+                    android:text="@string/sumList"
+                    android:textSize="16sp"
+                    />
+                <TextView
+                    android:id="@+id/amount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    tools:text="200"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="20"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:text="@string/rub"/>
+            </LinearLayout>
+        </LinearLayout>
 
-            <TextView
-                android:id="@+id/name_obj"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:layout_marginEnd="25dp"
-                android:layout_weight="40"
-                android:textSize="24sp"
-                android:shadowColor="@color/mainColor"
-                android:shadowDx="-2"
-                android:shadowDy="-1"
-                android:shadowRadius="5"
-                tools:text="Name"/>
-            <TextView
-                android:id="@+id/decrementCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="10"
-                android:gravity="center_horizontal"
-                android:textSize="24sp"
-                android:text="@string/decrement"/>
-            <TextView
-                android:id="@+id/count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="20"
-                android:textSize="24sp"
-                android:gravity="center_horizontal"
-                tools:text = "0"/>
-            <TextView
-                android:id="@+id/incrementCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="10"
-                android:gravity="center_horizontal"
-                android:text="@string/increment"
-                android:textSize="24sp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="20"
-            android:layout_marginBottom="5dp"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="40"
-                android:layout_marginStart="40dp"
-                android:text="@string/sumList"
-                android:textSize="24sp"
-                />
-            <TextView
-                android:id="@+id/amount"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="40"
-                android:textSize="24sp"
-                android:gravity="center"
-                tools:text="200"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="20"
-                android:textSize="24sp"
-                android:gravity="center"
-                android:text="@string/rub"/>
-        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

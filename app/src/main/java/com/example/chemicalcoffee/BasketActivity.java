@@ -28,6 +28,7 @@ public class BasketActivity extends AppCompatActivity {
         setContentView(R.layout.activity_basket);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -55,7 +56,7 @@ public class BasketActivity extends AppCompatActivity {
                                     cursor.getInt(2),
                                     cursor.getInt(4)
                             ));
-                        } else{
+                        } else if(cursor.moveToNext()){
                             basketList.add(new ObjProduct(
                                     cursor.getString(1),
                                     cursor.getInt(5),

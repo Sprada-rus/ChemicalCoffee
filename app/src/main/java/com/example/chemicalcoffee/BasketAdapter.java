@@ -58,7 +58,6 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
         CardView cardView = holder.cardView;
         ImageView imageView = (ImageView) cardView.findViewById(R.id.img_obj);
-        TextView nameObj = (TextView) cardView.findViewById(R.id.name_obj);
         TextView countObj = (TextView) cardView.findViewById(R.id.count);
         TextView increment = (TextView) cardView.findViewById(R.id.incrementCount);
         TextView decrement = (TextView) cardView.findViewById(R.id.decrementCount);
@@ -68,9 +67,6 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
         Drawable drawable = ContextCompat.getDrawable(cardView.getContext(), basketList.get(position).getImgId());
         imageView.setImageDrawable(drawable);
         imageView.setContentDescription(basketList.get(position).getNameObject());
-
-        //Вставляем Имя объекта
-        nameObj.setText(basketList.get(position).getNameObject());
 
         //Вставляем кол-во
         countObj.setText(String.valueOf(basketList.get(position).getCount()));

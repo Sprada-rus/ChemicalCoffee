@@ -10,4 +10,5 @@
     <color name="white80">#80ffffff</color>
     <color name="mainColor">#646464</color>
     <color name="barColor">#8C8C8C</color>
+    <color name="backColorCard">#9A8C8C8C</color>
 </resources>
