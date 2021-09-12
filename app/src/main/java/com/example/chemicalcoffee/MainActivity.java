@@ -34,12 +34,10 @@ public class MainActivity extends AppCompatActivity {
         barTitle.setText(toolbar.getTitle());
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-
         SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         ViewPager pager = (ViewPager) findViewById(R.id.view_pager);
         pager.setOffscreenPageLimit(4);
         pager.setAdapter(pagerAdapter);
-
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(pager);

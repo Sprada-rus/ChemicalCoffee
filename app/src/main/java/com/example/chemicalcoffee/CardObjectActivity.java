@@ -37,7 +37,7 @@ public class CardObjectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_object);
 
-        int objID = (Integer) getIntent().getExtras().get(EXTRA_OBJ_ID) + 1;
+        int objID = (Integer) getIntent().getExtras().get(EXTRA_OBJ_ID);
         String nameTable = (String) getIntent().getExtras().get(EXTRA_TABLE);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -57,20 +57,23 @@ public class CardObjectActivity extends AppCompatActivity {
                 int count = Integer.parseInt((String) objCount.getText());
                 count++;
                 ContentValues values1 = new ContentValues();
-
+                ContentValues values2 = new ContentValues();
                 values1.put("count", count);
+                values2.put("count_product", count);
                 try {
                     db = helper.getWritableDatabase();
                     db.update(nameTable, values1, "_id = ?", new String[] {Integer.toString(objID)});
                     objCount.setText(String.valueOf(count));
-                    if (count >= 1) {
-                        ContentValues values2 = new ContentValues();
+                    if (count == 1){
+                        values2.put("product_id", objID);
                         values2.put("name_product", String.valueOf(objName.getText()));
-                        values2.put("count_product", count);
                         values2.put("table_product", nameTable);
                         values2.put("coast", Float.valueOf((String) objAmount.getText()));
                         values2.put("image_id", imgId);
                         db.insert("BASKET", null, values2);
+                    } else if (count > 1) {
+                        db.update("BASKET", values2, "product_id = ?", new String[] {Integer.toString(objID)});
+                        objCount.setText(String.valueOf(count));
                     }
                 } catch (SQLException e){
                     Toast toast = Toast.makeText(CardObjectActivity.this, R.string.error_load, Toast.LENGTH_SHORT);
@@ -107,7 +110,6 @@ public class CardObjectActivity extends AppCompatActivity {
                 }
             }
         });
-
 
         onLoadValue(objID, nameTable);
     }

@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -31,6 +32,7 @@ public class BasketActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
 
         TextView devText = (TextView)  findViewById(R.id.textView);
         devText.setVisibility(View.INVISIBLE);
@@ -54,19 +56,20 @@ public class BasketActivity extends AppCompatActivity {
                                     cursor.getString(1),
                                     cursor.getInt(5),
                                     cursor.getInt(2),
-                                    cursor.getInt(4)
+                                    cursor.getFloat(4) * Float.intBitsToFloat(cursor.getInt(2))
                             ));
                         } else if(cursor.moveToNext()){
                             basketList.add(new ObjProduct(
                                     cursor.getString(1),
                                     cursor.getInt(5),
                                     cursor.getInt(2),
-                                    cursor.getInt(4)
+                                    cursor.getFloat(4) * Float.intBitsToFloat(cursor.getInt(2))
                             ));
                         }
                     }
                 }catch (Exception e){
-                    //Пусто, мб что то придумаю
+                    Toast toast = Toast.makeText(BasketActivity.this, R.string.error_load, Toast.LENGTH_SHORT);
+                    toast.show();
                 }
 
                 runOnUiThread(new Runnable() {

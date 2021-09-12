@@ -25,6 +25,7 @@ public class StoreFragment extends Fragment {
     private static final String tableName = "STORE";
     private ArrayList<String> captions = new ArrayList<String>();
     private ArrayList<Integer>  imageID = new ArrayList<Integer>();
+    private ArrayList<Integer>  objID = new ArrayList<Integer>();
 
 
     @Override
@@ -36,10 +37,10 @@ public class StoreFragment extends Fragment {
         if (captions.size() == 0 && imageID.size() == 0)
             new UnloadObject().execute(tableName);
 
-        SQListImageAdapter adapter = new SQListImageAdapter(captions, imageID);
+        SQListImageAdapter adapter = new SQListImageAdapter(captions, imageID, objID);
         adapter.setListener(new SQListImageAdapter.Listener() {
             @Override
-            public void onClick(int position) {
+            public void onClick(int position, int objID) {
                 Intent intent = new Intent(getContext(), CardStoreActivity.class);
                 intent.putExtra(CardStoreActivity.EXTRA_OBJ_ID, position);
                 intent.putExtra(CardStoreActivity.EXTRA_TABLE, tableName);
@@ -79,10 +80,12 @@ public class StoreFragment extends Fragment {
                     if (i == 0 && cursor.moveToFirst()) {
                         captions.add(cursor.getString(cursor.getColumnIndex(dbColumn.EnterColumn.OBJECT_NAME)));
                         imageID.add(cursor.getInt(cursor.getColumnIndex(dbColumn.EnterColumn.IMAGE_ID)));
+                        objID.add(cursor.getInt(cursor.getColumnIndex(dbColumn.EnterColumn.ID_VERSION)));
                     } else {
                         cursor.moveToNext();
                         captions.add(cursor.getString(cursor.getColumnIndex(dbColumn.EnterColumn.OBJECT_NAME)));
                         imageID.add(cursor.getInt(cursor.getColumnIndex(dbColumn.EnterColumn.IMAGE_ID)));
+                        objID.add(cursor.getInt(cursor.getColumnIndex(dbColumn.EnterColumn.ID_VERSION)));
                     }
                 }
 

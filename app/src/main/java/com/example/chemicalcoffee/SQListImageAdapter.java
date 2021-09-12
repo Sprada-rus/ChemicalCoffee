@@ -18,26 +18,33 @@ import java.util.ArrayList;
 public class SQListImageAdapter extends RecyclerView.Adapter<SQListImageAdapter.ViewHolder> {
     private ArrayList<String> captions = new ArrayList<String>();
     private ArrayList<Integer> imgID = new ArrayList<Integer>();
+    private ArrayList<Integer> objectsId = new ArrayList<Integer>();
     private Listener listener;
 
     interface Listener{
-        void onClick(int position);
+        void onClick(int position, int id);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private CardView cardView;
+        private static int objId;
 
         public ViewHolder(CardView v){
             super(v);
             cardView = v;
         }
+
+        public static void put(int id){
+            objId = id;
+        }
     }
 
-    public SQListImageAdapter(ArrayList<String> captions, ArrayList<Integer> imageID){
+    public SQListImageAdapter(ArrayList<String> captions, ArrayList<Integer> imageID, ArrayList<Integer> objectsId){
         this.captions = captions;
         this.imgID = imageID;
-
+        this.objectsId = objectsId;
     }
+
 
 
     @Override
@@ -58,6 +65,7 @@ public class SQListImageAdapter extends RecyclerView.Adapter<SQListImageAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position){
         CardView cardView = holder.cardView;
+        holder.put(objectsId.get(position));
         ImageView imageView = (ImageView) cardView.findViewById(R.id.img_obj);
         Drawable drawable = ContextCompat.getDrawable(cardView.getContext(), imgID.get(position));
         imageView.setImageDrawable(drawable);
@@ -68,7 +76,7 @@ public class SQListImageAdapter extends RecyclerView.Adapter<SQListImageAdapter.
             @Override
             public void onClick(View v){
                 if (listener != null){
-                    listener.onClick(position);
+                    listener.onClick(position, objectsId.get(position));
                 }
             }
         });

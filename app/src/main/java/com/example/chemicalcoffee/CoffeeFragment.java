@@ -27,10 +27,10 @@ import java.util.ArrayList;
 
 public class CoffeeFragment extends Fragment {
     private SQLiteOpenHelper helper;
-    private static final String tableName = "DRINK";
+    private static final String tableName = "PRODUCT";
     private ArrayList<String> captions = new ArrayList<String>();
     private ArrayList<Integer>  imageID = new ArrayList<Integer>();
-
+    private ArrayList<Integer>  objID = new ArrayList<Integer>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,12 +42,12 @@ public class CoffeeFragment extends Fragment {
         if (captions.size() == 0 && imageID.size() == 0)
             new UnloadObject().execute(tableName);
 
-        SQListImageAdapter adapter = new SQListImageAdapter(captions, imageID);
+        SQListImageAdapter adapter = new SQListImageAdapter(captions, imageID, objID);
         adapter.setListener(new SQListImageAdapter.Listener() {
             @Override
-            public void onClick(int position) {
+            public void onClick(int position, int objID) {
                 Intent intent = new Intent(getActivity(), CardObjectActivity.class);
-                intent.putExtra(CardObjectActivity.EXTRA_OBJ_ID, position);
+                intent.putExtra(CardObjectActivity.EXTRA_OBJ_ID, objID);
                 intent.putExtra(CardObjectActivity.EXTRA_TABLE, tableName);
                 startActivity(intent);
             }
@@ -77,17 +77,19 @@ public class CoffeeFragment extends Fragment {
             //Попытка вытащить значения из таблицы
             try {
                 SQLiteDatabase db = helper.getReadableDatabase();
-                Cursor cursor = db.query(nameTab, new String[]{"name", "image_id"},
-                        null, null, null, null, null);
+                Cursor cursor = db.query(nameTab, new String[]{"_id", "name", "image_id"},
+                        "type_product = ?", new String[] {"DRINK"}, null, null, null);
 
                 for (int i = 0; i < cursor.getCount(); i++){
                     if(i == 0 && cursor.moveToFirst()) {
                         captions.add(cursor.getString(cursor.getColumnIndex(dbColumn.EnterColumn.OBJECT_NAME)));
                         imageID.add(cursor.getInt(cursor.getColumnIndex(dbColumn.EnterColumn.IMAGE_ID)));
+                        objID.add(cursor.getInt(cursor.getColumnIndex(dbColumn.EnterColumn.ID_VERSION)));
                     } else {
                         cursor.moveToNext();
                         captions.add(cursor.getString(cursor.getColumnIndex(dbColumn.EnterColumn.OBJECT_NAME)));
                         imageID.add(cursor.getInt(cursor.getColumnIndex(dbColumn.EnterColumn.IMAGE_ID)));
+                        objID.add(cursor.getInt(cursor.getColumnIndex(dbColumn.EnterColumn.ID_VERSION)));
                     }
                 }
 
