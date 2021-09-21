@@ -33,7 +33,6 @@ public class BasketActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-
         TextView devText = (TextView)  findViewById(R.id.textView);
         devText.setVisibility(View.INVISIBLE);
 
@@ -56,14 +55,14 @@ public class BasketActivity extends AppCompatActivity {
                                     cursor.getString(1),
                                     cursor.getInt(5),
                                     cursor.getInt(2),
-                                    cursor.getFloat(4) * Float.intBitsToFloat(cursor.getInt(2))
+                                    cursor.getFloat(4) * (cursor.getInt(2) * 1.0F)
                             ));
                         } else if(cursor.moveToNext()){
                             basketList.add(new ObjProduct(
                                     cursor.getString(1),
                                     cursor.getInt(5),
                                     cursor.getInt(2),
-                                    cursor.getFloat(4) * Float.intBitsToFloat(cursor.getInt(2))
+                                    cursor.getFloat(4) * (cursor.getInt(2) * 1.0F)
                             ));
                         }
                     }
@@ -95,6 +94,9 @@ public class BasketActivity extends AppCompatActivity {
         view.setLayoutManager(manager);
 
     }
+
+
+
 
 
 }

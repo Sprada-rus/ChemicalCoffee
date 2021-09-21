@@ -15,19 +15,66 @@ import java.util.ArrayList;
 public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder> {
     private ArrayList<ObjProduct> basketList = new ArrayList<>();
 
-    private Listener incrementListener;
-    private Listener decrementListener;
+    private OnItemClickListener listener;
+    private OnItemClickListener incrementListener;
+    private OnItemClickListener decrementListener;
 
-    interface Listener{
-        void onClick();
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setDecrementListener(OnItemClickListener decrementListener) {
+        this.decrementListener = decrementListener;
+    }
+
+    public void setIncrementListener(OnItemClickListener listener){
+        this.incrementListener = listener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.listener = listener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private final CardView cardView;
+        public ImageView imageView;//=
+        public TextView countObj; //=
+        public TextView increment;// =
+        public TextView decrement;// =
+        public TextView amountObj;// =
 
-        public ViewHolder(CardView v){
+        public ViewHolder(CardView v, OnItemClickListener decrListener, OnItemClickListener incrListener){
             super(v);
             cardView = v;
+            imageView = (ImageView) cardView.findViewById(R.id.img_obj);
+            countObj = (TextView) cardView.findViewById(R.id.count);
+            increment = (TextView) cardView.findViewById(R.id.incrementCount);
+            decrement = (TextView) cardView.findViewById(R.id.decrementCount);
+            amountObj = (TextView) cardView.findViewById(R.id.amount);
+
+            increment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (incrListener != null){
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            incrListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            decrement.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (decrListener != null){
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            decrListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -40,57 +87,52 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
         return basketList.size();
     }
 
-    public void setIncrementListener(Listener listener){
-        this.incrementListener = listener;
-    }
-
-    public void setDecrementListener(Listener listener){
-        this.decrementListener = listener;
-    }
+//    public void setIncrementListener(Listener listener){
+//        this.incrementListener = listener;
+//    }
+//
+//    public void setDecrementListener(Listener listener){
+//        this.decrementListener = listener;
+//    }
 
     @Override
     public BasketAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         CardView cardView = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.list_basket, parent, false);
-        return new ViewHolder(cardView);
+        return new ViewHolder(cardView, incrementListener, decrementListener);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        ObjProduct product = basketList.get(position);
         CardView cardView = holder.cardView;
-        ImageView imageView = (ImageView) cardView.findViewById(R.id.img_obj);
-        TextView countObj = (TextView) cardView.findViewById(R.id.count);
-        TextView increment = (TextView) cardView.findViewById(R.id.incrementCount);
-        TextView decrement = (TextView) cardView.findViewById(R.id.decrementCount);
-        TextView amountObj = (TextView) cardView.findViewById(R.id.amount);
-
         //Подгрузка картинки
         Drawable drawable = ContextCompat.getDrawable(cardView.getContext(), basketList.get(position).getImgId());
-        imageView.setImageDrawable(drawable);
-        imageView.setContentDescription(basketList.get(position).getNameObject());
+        holder.imageView.setImageDrawable(drawable);
+        holder.imageView.setContentDescription(basketList.get(position).getNameObject());
 
         //Вставляем кол-во
-        countObj.setText(String.valueOf(basketList.get(position).getCount()));
+        holder.countObj.setText(String.valueOf(basketList.get(position).getCount()));
 
         //Вставляем цену
-        amountObj.setText(String.valueOf(basketList.get(position).getCoast()));
+        holder.amountObj.setText(String.valueOf(basketList.get(position).getCoast()));
 
 
-        increment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(incrementListener != null){
-                    incrementListener.onClick();
-                }
-            }
-        });
-
-        decrement.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (decrementListener != null){
-                    decrementListener.onClick();
-                }
-            }
-        });
+//        holder.increment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(incrementListener != null){
+//                    incrementListener.onClick();
+//                }
+//            }
+//        });
+//
+//        holder.decrement.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (decrementListener != null){
+//                    decrementListener.onClick();
+//                }
+//            }
+//        });
     }
 }
