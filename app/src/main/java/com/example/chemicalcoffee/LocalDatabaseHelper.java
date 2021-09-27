@@ -24,27 +24,6 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
                 +"count INTEGER,"
                 +"coast REAL);");
 
-
-//        database.execSQL(
-//                "CREATE TABLE DRINK ("
-//                        +"_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-//                        +"name TEXT,"
-//                        +"descr TEXT,"
-//                        +"image_id INTEGER,"
-//                        +"count INTEGER,"
-//                        +"coast REAL);"
-//        );
-//
-//        database.execSQL(
-//                "CREATE TABLE FOOD ("
-//                        +"_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-//                        +"name TEXT,"
-//                        +"descr TEXT,"
-//                        +"image_id INTEGER,"
-//                        +"count INTEGER,"
-//                        +"coast REAL);"
-//        );
-//
         database.execSQL(
                 "CREATE TABLE STORE ("
                         +"_id INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -53,17 +32,17 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
                         +"image_id INTEGER);"
         );
 
-        database.execSQL(
-                "CREATE TABLE BASKET ("
-                        +"_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                        +"product_id TEXT,"
-                        +"name_product TEXT,"
-                        +"type_product TEXT,"
-                        +"count_product INTEGER,"
-                        +"table_product TEXT,"
-                        +"coast REAL,"
-                        +"image_id INTEGER);"
-        );
+//        database.execSQL(
+//                "CREATE TABLE BASKET ("
+//                        +"_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+//                        +"product_id TEXT,"
+//                        +"name_product TEXT,"
+//                        +"type_product TEXT,"
+//                        +"count_product INTEGER,"
+//                        +"table_product TEXT,"
+//                        +"coast REAL,"
+//                        +"image_id INTEGER);"
+//        );
 
         insertValue(database,
                 "PRODUCT",
@@ -149,10 +128,9 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE FOOD");
             db.execSQL("DROP TABLE STORE");
             db.execSQL("DROP TABLE BASKET");
-        } else if (oldVersion < 16){
-
+        } else if (oldVersion == 16){
+            db.execSQL("DROP TABLE BASKET");
         }
-
     }
 
     @Override

@@ -27,8 +27,8 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
         this.decrementListener = decrementListener;
     }
 
-    public void setIncrementListener(OnItemClickListener listener){
-        this.incrementListener = listener;
+    public void setIncrementListener(OnItemClickListener incrementListener){
+        this.incrementListener = incrementListener;
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -98,7 +98,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
     @Override
     public BasketAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         CardView cardView = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.list_basket, parent, false);
-        return new ViewHolder(cardView, incrementListener, decrementListener);
+        return new ViewHolder(cardView, decrementListener, incrementListener);
     }
 
     @Override

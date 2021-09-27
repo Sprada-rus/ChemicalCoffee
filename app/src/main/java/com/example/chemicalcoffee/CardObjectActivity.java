@@ -91,17 +91,13 @@ public class CardObjectActivity extends AppCompatActivity {
 
                 try {
                     db = helper.getWritableDatabase();
-                    cursor = db.query("BASKET", new String[] {"name_product"}, "name_product = ?", new String[] {String.valueOf(objName.getText())},
+                    cursor = db.query("PRODUCT", new String[] {"name"}, "name = ?", new String[] {String.valueOf(objName.getText())},
                             null, null, null);
                     if (count > 0) {
                         count--;
                         values1.put("count", count);
-                        db.update(nameTable, values1, "_id = ?", new String[] {Integer.toString(objID)});
+                        db.update("PRODUCT", values1, "_id = ?", new String[] {Integer.toString(objID)});
                         objCount.setText(String.valueOf(count));
-                    }
-
-                    if (count == 0 & cursor.moveToFirst()) {
-                        db.delete("BASKET", "name_product = ?", new String[] {String.valueOf(objName.getText())});
                     }
 
                 } catch (SQLException e){

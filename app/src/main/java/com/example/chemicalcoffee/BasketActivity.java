@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -13,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +22,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class BasketActivity extends AppCompatActivity {
-    private final String basketTable = "BASKET";
+    private final String basketTable = "PRODUCT";
     private ArrayList<ObjProduct> basketList = new ArrayList<>();
 
     @Override
@@ -46,26 +48,29 @@ public class BasketActivity extends AppCompatActivity {
 
                 try {
                     SQLiteDatabase db = helper.getWritableDatabase();
-                    Cursor cursor = db.query(basketTable, new String[] {"_id", "name_product", "count_product", "table_product", "coast", "image_id"},
-                            null, null, null, null, null);
+                    Cursor cursor = db.query(basketTable, new String[] {"_id", "name", "count", "coast", "image_id"},
+                            "count > ?", new String[] {"0"}, null, null, null);
 
                     for(int i = 0; i < cursor.getCount(); i++){
                         if (i == 0 && cursor.moveToFirst()){
                             basketList.add(new ObjProduct(
-                                    cursor.getString(1),
-                                    cursor.getInt(5),
-                                    cursor.getInt(2),
-                                    cursor.getFloat(4) * (cursor.getInt(2) * 1.0F)
+                                    cursor.getString(cursor.getColumnIndex("name")),
+                                    cursor.getInt(cursor.getColumnIndex("image_id")),
+                                    cursor.getInt(cursor.getColumnIndex("count")),
+                                    cursor.getFloat(cursor.getColumnIndex("coast")) * (cursor.getInt(cursor.getColumnIndex("count")) * 1.0F)
                             ));
                         } else if(cursor.moveToNext()){
                             basketList.add(new ObjProduct(
-                                    cursor.getString(1),
-                                    cursor.getInt(5),
-                                    cursor.getInt(2),
-                                    cursor.getFloat(4) * (cursor.getInt(2) * 1.0F)
+                                    cursor.getString(cursor.getColumnIndex("name")),
+                                    cursor.getInt(cursor.getColumnIndex("image_id")),
+                                    cursor.getInt(cursor.getColumnIndex("count")),
+                                    cursor.getFloat(cursor.getColumnIndex("coast")) * (cursor.getInt(cursor.getColumnIndex("count")) * 1.0F)
                             ));
                         }
                     }
+
+                    db.close();
+                    cursor.close();
                 }catch (Exception e){
                     Toast toast = Toast.makeText(BasketActivity.this, R.string.error_load, Toast.LENGTH_SHORT);
                     toast.show();
@@ -93,10 +98,58 @@ public class BasketActivity extends AppCompatActivity {
         LinearLayoutManager manager = new LinearLayoutManager(BasketActivity.this);
         view.setLayoutManager(manager);
 
+        //Adapter Listener начало
+        adapter.setIncrementListener(new BasketAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                basketList.get(position).incrementCount();
+                adapter.notifyItemChanged(position);
+                updateObj(basketList.get(position).getNameObject(), position);
+            }
+        });
+
+
+        adapter.setDecrementListener(new BasketAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                basketList.get(position).decrementCount();
+                adapter.notifyItemChanged(position);
+                updateObj(basketList.get(position).getNameObject(), position);
+            }
+        });
+        //Adapter Listener конец
     }
 
+    private void updateObj(String name, int position){
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                SQLiteOpenHelper helper = new LocalDatabaseHelper(BasketActivity.this);
 
+                try {
+                    SQLiteDatabase db = helper.getWritableDatabase();
+                    ContentValues values = new ContentValues();
 
+                    values.put("count", basketList.get(position).getCount());
+                    db.update(basketTable, values, "name  = ?", new String[] {name});
+                    db.close();
+                }catch (Exception e){
+                    Toast toast = Toast.makeText(BasketActivity.this, R.string.error_load, Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
+            }
+        };
+
+        Thread thread = new Thread(runnable);
+        thread.start();
+    }
 
 
 }

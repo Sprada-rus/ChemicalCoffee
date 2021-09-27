@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="10"
                     android:gravity="center_horizontal"
-                    android:textSize="16sp"
+                    android:textSize="24sp"
                     android:text="@string/decrement"/>
                 <TextView
                     android:id="@+id/count"
@@ -62,7 +62,7 @@
                     android:layout_weight="10"
                     android:gravity="center_horizontal"
                     android:text="@string/increment"
-                    android:textSize="16sp"/>
+                    android:textSize="24sp"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
