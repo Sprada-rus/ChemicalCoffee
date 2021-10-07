@@ -13,4 +13,5 @@
     <string name="sumList">Sum</string>
     <string name="rub">rub.</string>
     <string name="on_process_dev">Идёт разработка... Пока не ясно когда будет сделано</string>
+    <string name="pre_exit">Press the Back button again before exiting</string>
 </resources>

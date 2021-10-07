@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class BasketListFragment extends Fragment {
     private SQLiteOpenHelper helper;
-    private static final String tableName = "BASKET";
+    private static final String tableName = "PRODUCT";
     private Cursor cursor;
     private SQLiteDatabase db;
     private ArrayList<String> captions = new ArrayList<>();
@@ -34,17 +34,7 @@ public class BasketListFragment extends Fragment {
 
         new UnloadObject().execute(tableName);
 
-//        BasketAdapter adapter = new BasketAdapter(captions, imageID, amount, count);
 
-//        adapter.setIncrementListener(new BasketAdapter.Listener() {
-//            @Override
-//            public void onClick() {
-//                int tmpCount = BasketAdapter.ViewHolder.getCount();
-//                Float tmpPrice;
-//
-//
-//            }
-//        });
         return inflater.inflate(R.layout.fragment_basket_list, container, false);
     }
 
@@ -58,7 +48,7 @@ public class BasketListFragment extends Fragment {
         @Override
         protected Boolean doInBackground(String... strings) {
             db = helper.getWritableDatabase();
-            cursor = db.query(tableName, new String[] {"_id","name_product", "count_product", "table_product", "coast", "image_id"},
+            cursor = db.query(tableName, new String[] {"_id","name", "count", "coast", "image_id"},
                     null, null,null, null, null);
 
             try{

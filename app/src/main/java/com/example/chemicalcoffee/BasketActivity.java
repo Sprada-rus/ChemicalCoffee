@@ -35,8 +35,8 @@ public class BasketActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        TextView devText = (TextView)  findViewById(R.id.textView);
-        devText.setVisibility(View.INVISIBLE);
+        TextView textEmpty = (TextView)  findViewById(R.id.textView);
+        textEmpty.setVisibility(View.INVISIBLE);
 
         RecyclerView view = (RecyclerView) findViewById(R.id.basket_list);
 
@@ -79,7 +79,8 @@ public class BasketActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
+                        if (basketList.size() == 0)
+                            textEmpty.setVisibility(View.VISIBLE);
                     }
                 });
             }
@@ -90,7 +91,6 @@ public class BasketActivity extends AppCompatActivity {
         //В фоне пытаемся выгрузить дайнные из таблицы - Конец
 
 
-        devText.setVisibility(View.INVISIBLE);
         BasketAdapter adapter = new BasketAdapter(basketList);
         adapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
         view.setAdapter(adapter);
@@ -103,8 +103,10 @@ public class BasketActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
                 basketList.get(position).incrementCount();
+                String productName = basketList.get(position).getNameObject();
+                int productCount = basketList.get(position).getCount();
                 adapter.notifyItemChanged(position);
-                updateObj(basketList.get(position).getNameObject(), position);
+                updateObj(productName, position, productCount);
             }
         });
 
@@ -113,14 +115,23 @@ public class BasketActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
                 basketList.get(position).decrementCount();
-                adapter.notifyItemChanged(position);
-                updateObj(basketList.get(position).getNameObject(), position);
+                String productName = basketList.get(position).getNameObject();
+                int productCount = basketList.get(position).getCount();
+                if (basketList.get(position).getCount() == 0){
+                    basketList.remove(position);
+                    adapter.notifyItemRemoved(position);
+                    updateObj(productName, position, productCount);
+//                    basketList.remove(position);
+                } else {
+                    adapter.notifyItemChanged(position);
+                    updateObj(productName, position, productCount);
+                }
             }
         });
         //Adapter Listener конец
     }
 
-    private void updateObj(String name, int position){
+    private void updateObj(String name, int position, int count){
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -130,7 +141,7 @@ public class BasketActivity extends AppCompatActivity {
                     SQLiteDatabase db = helper.getWritableDatabase();
                     ContentValues values = new ContentValues();
 
-                    values.put("count", basketList.get(position).getCount());
+                    values.put("count", count);
                     db.update(basketTable, values, "name  = ?", new String[] {name});
                     db.close();
                 }catch (Exception e){

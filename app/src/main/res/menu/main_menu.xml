@@ -5,6 +5,6 @@
         <item
             android:id="@+id/basket_item"
             android:title="@string/basket"
-            android:icon="@drawable/outline_shopping_basket_24"
+            android:actionLayout="@layout/basket_icon_layout"
             app:showAsAction="always"/>
 </menu>
